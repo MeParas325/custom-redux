@@ -1,4 +1,5 @@
 import {createStore} from 'redux'
+import products from './products'
 
 const INCREMENT = 'post/increment'
 const DECREMENT = 'post/decrement'
@@ -6,8 +7,8 @@ const INCREASE_BY = 'post/increaseBy'
 const DECREASE_BY = 'post/decreaseBy'
 
 const initialState = {
-    name: "Paras",
-    post: 0,
+    products: products,
+    cartitem: [],
 }
 
 function reducer(state = initialState, action) {
