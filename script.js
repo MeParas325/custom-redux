@@ -1,38 +1,29 @@
-import {createStore} from 'redux'
-import products from './products'
+import {combineReducers, createStore} from 'redux'
 
-const INCREMENT = 'post/increment'
-const DECREMENT = 'post/decrement'
-const INCREASE_BY = 'post/increaseBy'
-const DECREASE_BY = 'post/decreaseBy'
+import productReducer from './reducers/productReducer'
 
-const initialState = {
-    products: products,
-    cartitem: [],
-}
+import cartItemReducer from './reducers/cartItemReducer'
+import { CART_DECREASE_BY, CART_INCREASE_BY, CART_ADD_ITEM, CART_REMOVE_ITEM } from './reducers/cartItemReducer'
 
-function reducer(state = initialState, action) {
-  switch (action.type) {
-    case INCREMENT:
-      return { ...state, post: state.post + 1 }
-    case DECREMENT:
-      return { ...state, post: state.post - 1 }
-    case INCREASE_BY:
-      return { ...state, post: state.post + action.payload }
-    case DECREASE_BY:
-      return { ...state, post: state.post - action.payload }
-    default:
-      return state
-  }
-}
+import wishListReducer from './reducers/wishListReducer'
+import { WISH_LIST_ADD, WISH_LIST_REMOVE } from './reducers/wishListReducer'
+
+const reducer = combineReducers({
+  products: productReducer,
+  cartItems: cartItemReducer,
+  wishList: wishListReducer,
+})
+
+console.log(reducer)
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.())
 
-store.subscribe(() => {
-    console.log(store.getState())
-})
-
-store.dispatch({type: INCREMENT})
-store.dispatch({type: DECREMENT})
-store.dispatch({type: INCREASE_BY, payload: 10})
-store.dispatch({type: DECREASE_BY, payload: 30})
+store.dispatch({type: CART_ADD_ITEM, payload: {productId: 1, quantity: 1}})
+store.dispatch({type: CART_ADD_ITEM, payload: {productId: 10, quantity: 1}})
+store.dispatch({type: CART_ADD_ITEM, payload: {productId: 13, quanti: 1}})
+store.dispatch({type: CART_REMOVE_ITEM, payload: {productId: 13}})
+store.dispatch({type: CART_INCREASE_BY, payload: {productId: 10}})
+store.dispatch({type: CART_DECREASE_BY, payload: {productId: 10}})
+store.dispatch({type: WISH_LIST_ADD, payload: {productId: 11}})
+store.dispatch({type: WISH_LIST_ADD, payload: {productId: 16}})
+store.dispatch({type: WISH_LIST_REMOVE, payload: {productId: 11}})
