@@ -35,7 +35,6 @@ export default function Cart() {
             $
             {
               cartItems.reduce((accumulator, cartItem) => {
-                console.log("Accumulator is: " + accumulator)
                 return accumulator + cartItem.quantity * cartItem.price
               }, 
               0)

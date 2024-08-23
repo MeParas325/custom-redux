@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { cartIncreasedBy, cartDecreaseBy } from "../slices/cartItemSlice"
+import { cartIncreasedBy, cartDecreaseBy, cartRemoveItem } from "../slices/cartItemSlice"
 
 export default function CartItem({
   productId,
@@ -29,6 +29,9 @@ export default function CartItem({
         <button onClick={() => dispatch(cartIncreasedBy(productId))}>
           +
         </button>
+        <button onClick={() => {
+          dispatch(cartRemoveItem(productId))
+        }}>Delete</button>
       </div>
       <div className="item-total">${quantity * price}</div>
     </div>

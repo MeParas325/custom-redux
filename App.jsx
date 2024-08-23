@@ -6,7 +6,6 @@ import './App.css'
 
 
 const App = () => {
-  console.log("App is rendering")
   const products = useSelector((state) => state.products)
   return (
     <div>
