@@ -1,57 +1,41 @@
-import { produce } from "immer"
+import { createSlice } from "@reduxjs/toolkit"
 
-// actions
-export const CART_ADD_ITEM = "cart/addItem"
-export const CART_REMOVE_ITEM = "cart/removeItem"
-export const CART_INCREASE_BY = "cart/addBy"
-export const CART_DECREASE_BY = "card/removeBy"
+const findItemIndex = (state, action) => state.findIndex((item) => item.productId === action.payload.productId)
 
-// action listener
-export function cartAddItem(product) {
-  return { type: CART_ADD_ITEM, payload: product }
-}
-
-export function cartRemoveItem(productId) {
-  return { type: CART_REMOVE_ITEM, payload: { productId } }
-}
-
-export function cartIncreasedBy(productId) {
-  return { type: CART_INCREASE_BY, payload: { productId } }
-}
-
-export function cartDecreaseBy(productId) {
-  return { type: CART_DECREASE_BY, payload: { productId } }
-}
-
-export default function cartItemReducer(originalState = [], action) {
-
-  return produce(originalState, (state) => {
-    const existingItemIndex = state.findIndex((cartItem) => cartItem.productId === action.payload.productId)
-
-    switch (action.type) {
-
-      case CART_ADD_ITEM:
-        if (existingItemIndex !== -1) {
-          state[existingItemIndex].quantity += 1
-        }
-        state.push({ ...action.payload, quantity: 1 })
-        break
-
-      case CART_REMOVE_ITEM:
-        state.splice(existingItemIndex, 1)
-        break
-
-      case CART_INCREASE_BY:
+const slice = createSlice({
+  name: "cart",
+  initialState: [],
+  reducers: {
+    cartAddItem(state, action) {
+      const existingItemIndex = findItemIndex(state, action)
+      if (existingItemIndex !== -1) {
         state[existingItemIndex].quantity += 1
-        break
-          
-      case CART_DECREASE_BY:
-        state[existingItemIndex].quantity -= 1
-        if(state[existingItemIndex].quantity <= 0) state.splice(existingItemIndex, 1)
-        break
+      }
+      state.push({ ...action.payload, quantity: 1 })
+    },
+    cartRemoveItem(state, action) {
+      const existingItemIndex = findItemIndex(state, action)
+      state.splice(existingItemIndex, 1)
+    },
+    cartIncreasedBy(state, action) {
+      const existingItemIndex = findItemIndex(state, action)
+      state[existingItemIndex].quantity += 1
+    },
+    cartDecreaseBy(state, action) {
+      const existingItemIndex = findItemIndex(state, action)
+      state[existingItemIndex].quantity -= 1
+      if(state[existingItemIndex].quantity <= 0) state.splice(existingItemIndex, 1)
     }
+  }
+})
 
-    return state
-  })
+console.log(slice.actions.cartAddItem({name: "Tannu"}))
 
-}
+export const {
+  cartAddItem,
+  cartRemoveItem,
+  cartDecreaseBy,
+  cartIncreasedBy
+} = slice.actions
+
+export default slice.reducer

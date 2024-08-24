@@ -22,15 +22,15 @@ export default function CartItem({
       </div>
       <div className="item-price">${price}</div>
       <div className="item-quantity">
-        <button onClick={() => dispatch(cartDecreaseBy(productId))}>
+        <button onClick={() => dispatch(cartDecreaseBy({productId}))}>
           -
         </button>
         <span>{quantity}</span>
-        <button onClick={() => dispatch(cartIncreasedBy(productId))}>
+        <button onClick={() => dispatch(cartIncreasedBy({productId}))}>
           +
         </button>
         <button onClick={() => {
-          dispatch(cartRemoveItem(productId))
+          dispatch(cartRemoveItem({productId}))
         }}>Delete</button>
       </div>
       <div className="item-total">${quantity * price}</div>
