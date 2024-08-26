@@ -11,6 +11,7 @@ const slice = createSlice({
       if (existingItemIndex !== -1) {
         state[existingItemIndex].quantity += 1
       }
+      console.log(action)
       state.push({ ...action.payload, quantity: 1 })
     },
     cartRemoveItem(state, action) {
@@ -28,8 +29,6 @@ const slice = createSlice({
     }
   }
 })
-
-console.log(slice.actions.cartAddItem({name: "Tannu"}))
 
 export const {
   cartAddItem,
