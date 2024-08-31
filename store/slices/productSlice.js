@@ -19,6 +19,13 @@ const slice = createSlice({
     }
 })
 
+export const fetchInitialProducts = (dispatch) => {
+    dispatch(fetchProducts())
+    fetch("https://fakestoreapi.com/products").then((res) => res.json()).then((data) => {
+      dispatch(updateAllProducts(data))
+    })
+  }
+
 export const {updateAllProducts, fetchProducts} = slice.actions
 
 export default slice.reducer
