@@ -7,9 +7,9 @@ export default function Home() {
   const productList = useSelector((state) => state.products)
 
 
-  return productList.loading ? <h1>Loading..</h1> : (
+  return productList.loading ? <h1 style={{textAlign: "center"}}>Loading..</h1> : (
     <div className="products-container">
-      {productList.list.map(({ id, title, rating, price, image }) => (
+      {productList.list.length == 0 ? <h1 style={{textAlign: "center"}}>Something went wrong</h1> : productList.list.map(({ id, title, rating, price, image }) => (
         <Product
           key={id}
           productId={id}

@@ -1,4 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+
+export const fetchInitialProducts = createAsyncThunk("product/fetchProducts", async () => {
+    try {
+        const response = await fetch("https://fakestoreapi.com/products")
+        return response.json()
+    } catch (error) {
+        throw error
+    }
+})
 
 const slice = createSlice({
     name: "product",
@@ -6,26 +16,20 @@ const slice = createSlice({
         loading: false,
         list: []
     },
-    reducers: {
-        updateAllProducts(state, action) {
+    extraReducers: (builder) => {
+        builder.addCase(fetchInitialProducts.pending, (state) => {
+            console.log("Pending state")
+            state.loading = true 
+        }).addCase(fetchInitialProducts.fulfilled, (state, action) => {
+            console.log("Fulfilled state")
             state.loading = false
-            state.list = action.payload 
-            // return {loading: false, list: action.payload}
-        },
-        fetchProducts(state) {
-            state.loading = true
-            // return {...state, loading: true}
-        }
+            state.list = action.payload
+        }).addCase(fetchInitialProducts.rejected, (state, action) => {
+            console.log("Rejected state")
+            state.loading = false
+            state.list = []
+        })
     }
 })
-
-export const fetchInitialProducts = (dispatch) => {
-    dispatch(fetchProducts())
-    fetch("https://fakestoreapi.com/products").then((res) => res.json()).then((data) => {
-      dispatch(updateAllProducts(data))
-    })
-  }
-
-export const {updateAllProducts, fetchProducts} = slice.actions
 
 export default slice.reducer

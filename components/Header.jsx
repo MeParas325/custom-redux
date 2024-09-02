@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import CartIcon from '../assets/cart-icon.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchInitialProducts, fetchProducts, updateAllProducts } from '../store/slices/productSlice'
-import productList from "../store/products"
 
 export default function Header() {
 
@@ -11,7 +10,7 @@ export default function Header() {
   const dispatch = useDispatch()
 
   useEffect(() => {  
-    dispatch(fetchInitialProducts)
+    dispatch(fetchInitialProducts())
   }, [])
 
   return (
